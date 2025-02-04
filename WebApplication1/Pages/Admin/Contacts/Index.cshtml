@@ -1,0 +1,54 @@
+﻿@page
+@model WebApplication1.Pages.Admin.Contacts.IndexModel
+@{
+}
+
+<h2 class="text-center mb-5">List of Contacts</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Subject</th>
+            <th>Attachments</th>
+            <th>Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach(var contact in Model.ContactList)
+        {
+            <tr>
+                <td>@contact.Id</td>
+                <td>@(contact.FirstName + " " + contact.LastName)</td>
+                <td>@contact.Email</td>
+                <td>@contact.Phone</td>
+                <td>@contact.Subject</td>
+                <td>@contact.Attachments.Count</td>
+                <td>@contact.CreatedAt.ToString("MM/dd/yyyy")</td>
+                <td style="white-space:nowrap">
+                    <a class="btn btn-primary btn-sm me-1" href="/Admin/Contacts/Details?id=@(contact.Id)">Details</a>
+                    <a class="btn btn-danger btn-sm" href="/Admin/Contacts/Delete?id=@(contact.Id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<nav>
+    <ul class="pagination">
+        @for(int i = 1; i <= Model.totalPages; i++)
+        {
+            string active = "";
+            if (i == Model.pageIndex) active = "active";
+
+            <li class="page-item @active">
+                <a class="page-link" href="?pageIndex=@(i)">@i</a>
+            </li>
+        }
+    </ul>
+</nav>

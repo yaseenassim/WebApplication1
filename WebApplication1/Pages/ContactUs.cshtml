@@ -1,0 +1,90 @@
+﻿@page
+@model WebApplication1.Pages.ContactUsModel
+@{
+}
+
+<div class="row">
+    <div class="col-lg-7 mx-auto border shadow mb-3" p-5>
+        <h2 class="mb-5 text-center">Contact Form</h2> 
+        <br />
+
+        @if(Model.errorMessage.Length > 0)
+        {
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>@Model.errorMessage</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if(Model.successMessage.Length > 0)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <strong>@Model.successMessage</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form method="post" enctype="multipart/form-data">
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">First Name*</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="ContactDtoProperty.FirstName" />
+                    <span asp-validation-for="ContactDtoProperty.FirstName" class="text-danger"></span> 
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Last Name*</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="ContactDtoProperty.LastName" />
+                    <span asp-validation-for="ContactDtoProperty.LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Email*</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="ContactDtoProperty.Email" />
+                    <span asp-validation-for="ContactDtoProperty.Email" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Phone</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="ContactDtoProperty.Phone" />
+                    <span asp-validation-for="ContactDtoProperty.Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Subject*</label>
+                <div class="col-sm-8">
+                    <select class="form-select" asp-for="ContactDtoProperty.Subject" asp-items="Model.SubjectList" ></select>
+                    <span asp-validation-for="ContactDtoProperty.Subject" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Message*</label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" asp-for="ContactDtoProperty.Message" rows="5"></textarea>
+                    <span asp-validation-for="ContactDtoProperty.Message" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-4 col-form-label">Attachments</label>
+                <div class="col-sm-8">
+                    <input class="form-control" asp-for="ContactDtoProperty.Attachments" />
+                    <span asp-validation-for="ContactDtoProperty.Attachments" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="offset-sm-4 col-sm-8">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

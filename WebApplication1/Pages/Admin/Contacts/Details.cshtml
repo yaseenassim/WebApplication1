@@ -1,0 +1,60 @@
+﻿@page
+@model WebApplication1.Pages.Admin.Contacts.DetailsModel
+@{
+}
+
+<h2 class="text-center">Contact Details</h2>
+<a class="btn btn-primary btn-sm" asp-area="" asp-page="/Admin/Contacts/Index" role="button">Contacts</a>
+<hr />
+
+<div class="row">
+    <div class="col-lg-6 pe-5 mb-5">
+        <table class="table">
+            <tr>
+                <td>ID</td>
+                <td>@Model.ContactProperty.Id</td>
+            </tr>
+
+            <tr>
+                <td>Name</td>
+                <td>@(Model.ContactProperty.FirstName + " " + Model.ContactProperty.LastName)</td>
+            </tr>
+
+            <tr>
+                <td>Brand</td>
+                <td>@Model.ContactProperty.Email</td>
+            </tr>
+
+            <tr>
+                <td>Phone</td>
+                <td>@Model.ContactProperty.Phone</td>
+            </tr>
+
+            <tr>
+                <td>Subject</td>
+                <td>@Model.ContactProperty.Subject</td>
+            </tr>
+
+            <tr>
+                <td>Date</td>
+                <td>@Model.ContactProperty.CreatedAt</td>
+            </tr>
+
+            <tr>
+                <td>Attachments</td>
+                <td>@Model.ContactProperty.Attachments.Count</td>
+            </tr>
+        </table>
+
+        @foreach(var attachment in Model.ContactProperty.Attachments)
+        {
+            <a download class="btn btn-link" href="?attachmentId=@(attachment.Id)&handler=Attachment" role="button">@attachment.OriginalFileName</a>
+            <br />
+        }
+
+    </div>
+    <div class="col-lg-6">
+        <p><strong>Message:</strong></p>
+        <textarea readonly class="form-control-plaintext" rows="12">@Model.ContactProperty.Message</textarea> 
+    </div>
+</div>

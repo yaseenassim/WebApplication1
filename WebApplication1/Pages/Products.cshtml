@@ -1,0 +1,115 @@
+﻿@page
+@model WebApplication1.Pages.ProductsModel
+@{
+}
+
+<h2 class="rounded text-center text-white p-2 mb-3" style="background-color:#08618d;">List Of Products</h2>
+
+<div class="row g-3">
+    <div class="col-lg-3 col-md-4">
+        <div class="rounded border bg-light p-3 sticky-top" style="top:10px;">
+            <form id="search_form">
+                <div class="mb-3">
+                    <label class="form-label">Search</label>
+                    <input class="form-control" asp-for="SearchDto.Search" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Brand</label>
+                    <select class="form-select" asp-for="SearchDto.Brand">
+                        <option value="">All Brands</option>
+                        <option value="Samsung">Samsung</option>
+                        <option value="Apple">Apple</option>
+                        <option value="Nokia">Nokia</option>
+                        <option value="HP">HP</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" asp-for="SearchDto.Category">
+                        <option value="">All Category</option>
+                        <option value="Phones">Phones</option>
+                        <option value="Computers">Computers</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Printers">Printers</option>
+                        <option value="Cameras">Cameras</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <select class="form-select" asp-for="SearchDto.PriceRange">
+                        <option value="">All</option>
+                        <option value="0_100">Up to 100$</option>
+                        <option value="100_1000">100$ to 1000$</option>
+                        <option value="1000_plus">Above 1000$</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col d-grid">
+                        <button type="submit" class="btn btn-outline-primary btn-sm">Search</button>
+                    </div>
+                    <div class="col d-grid">
+                        <a class="btn btn-outline-secondary btn-sm" asp-page="/Products">Clear</a>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-9 col-md-8">
+        <div class="row mb-3">
+            <label class="col-lg-8 col-6 col-form-label text-end">Sort By</label>
+            <div class="col-lg-4 col-6">
+                <select class="form-select bg-light" form="search_form" asp-for="SortBy" onchange="this.form.submit()">
+                    <option value="newest">Newest</option>
+                    <option value="price_asc">Price: Low to High</option>
+                    <option value="price_desc">Price: High to Low</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mb-3 g-3">
+            @foreach(var product in Model.Products)
+            {
+                <div class="col-lg-4 col-sm-6">
+                    <div class="rounded border shadow p-3 text-center h-100">
+                        <img src="/products/@product.ImageFileName" class="img-fluid" alt="..." style="height:180px; object-fit:contain" />
+                        <hr />
+                        <h5 class="py-2">@product.Name</h5>
+                        <p>Brand: @product.Brand, Category: @product.Category</p>
+                        <h4 class="mb-3">@(product.Price)$</h4>
+                        <a class="btn btn-primary btn-sm mb-2" asp-page="/Details" asp-route-id="@product.Id">
+                            Details
+                        </a>
+                        <button type="button" class="btn btn-warning btn-sm mb-2" onclick="addToCart(this, @product.Id)">
+                            Add to cart <i class="bi bi-cart4"></i>
+                        </button>
+                    </div>
+                </div>
+            }
+        </div>
+        <nav>
+            <ul class="pagination">
+                @for (int i = 1; i <= Model.totalPages; i++)
+                {
+                    string active = "";
+                    if (i == Model.pageIndex) active = "active";
+
+                    <li class="page-item @active">
+                        <a class="page-link" asp-route-pageIndex="@i"
+                        asp-route-SearchDto.Search="@Model.SearchDto.Search"
+                        asp-route-SearchDto.Brand="@Model.SearchDto.Brand"
+                        asp-route-SearchDto.Category="@Model.SearchDto.Category"
+                        asp-route-SearchDto.PriceRange="@Model.SearchDto.PriceRange"
+                        asp-route-SortBy="@Model.SortBy">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</div>
+
